@@ -9,13 +9,15 @@ const firstTimeFlowTypeNameMap = {
 };
 
 const mapStateToProps = (state) => {
+  console.log({ state });
   const {
-    metamask: { firstTimeFlowType },
+    metamask: { firstTimeFlowType, wallets },
   } = state;
 
   return {
     completionMetaMetricsName: firstTimeFlowTypeNameMap[firstTimeFlowType],
     onboardingInitiator: getOnboardingInitiator(state),
+    wallets,
   };
 };
 

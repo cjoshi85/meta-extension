@@ -47,7 +47,7 @@ export default class ImportWithSeedPhrase extends PureComponent {
         },
         customVariables: {
           errorLabel: 'Seed Phrase Error',
-          errorMessage: this.state.seedPhraseError,
+          errttorMessage: this.state.seedPhraseError,
         },
       });
     window.addEventListener('beforeunload', this._onBeforeUnload);

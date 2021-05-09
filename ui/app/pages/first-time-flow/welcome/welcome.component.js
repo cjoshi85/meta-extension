@@ -5,7 +5,7 @@ import Mascot from '../../../components/ui/mascot';
 import Button from '../../../components/ui/button';
 import {
   INITIALIZE_CREATE_PASSWORD_ROUTE,
-  INITIALIZE_SELECT_ACTION_ROUTE,
+  INITIALIZE_SELECT_ACTION_ROUTE, LOGIN_ACTION_ROUTE,
 } from '../../../helpers/constants/routes';
 
 export default class Welcome extends PureComponent {
@@ -36,6 +36,7 @@ export default class Welcome extends PureComponent {
   }
 
   handleContinue = () => {
+    // this.props.history.push(LOGIN_ACTION_ROUTE);
     this.props.history.push(INITIALIZE_SELECT_ACTION_ROUTE);
   };
 
@@ -45,14 +46,14 @@ export default class Welcome extends PureComponent {
     return (
       <div className="welcome-page__wrapper">
         <div className="welcome-page">
-          <Mascot
-            animationEventEmitter={this.animationEventEmitter}
-            width="125"
-            height="125"
-          />
-          <div className="welcome-page__header">{t('welcome')}</div>
+          {/*<Mascot*/}
+          {/*  animationEventEmitter={this.animationEventEmitter}*/}
+          {/*  width="125"*/}
+          {/*  height="125"*/}
+          {/*/>*/}
+          <div className="welcome-page__header">{t('welcomeYez')}</div>
           <div className="welcome-page__description">
-            <div>{t('metamaskDescription')}</div>
+            <div>{t('yezExtensionDescription')}</div>
             <div>{t('happyToSeeYou')}</div>
           </div>
           <Button

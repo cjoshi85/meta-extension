@@ -116,6 +116,7 @@ export default class Home extends PureComponent {
     } else if (pendingConfirmations.length > 0) {
       history.push(CONFIRMATION_V_NEXT_ROUTE);
     }
+    console.log({ props: this.props });
   }
 
   static getDerivedStateFromProps(
@@ -287,7 +288,7 @@ export default class Home extends PureComponent {
               className="home__connected-status-popover-bg-container"
               onClick={onClose}
             >
-              <div className="home__connected-status-popover-bg" />
+              <div className="home__connected-status-popover-bg"/>
             </div>
           );
         }}
@@ -330,14 +331,14 @@ export default class Home extends PureComponent {
     } = this.props;
 
     if (forgottenPassword) {
-      return <Redirect to={{ pathname: RESTORE_VAULT_ROUTE }} />;
+      return <Redirect to={{ pathname: RESTORE_VAULT_ROUTE }}/>;
     } else if (this.state.closing || this.state.redirecting) {
       return null;
     }
 
     return (
       <div className="main-container">
-        <Route path={CONNECTED_ROUTE} component={ConnectedSites} exact />
+        <Route path={CONNECTED_ROUTE} component={ConnectedSites} exact/>
         <Route
           path={CONNECTED_ACCOUNTS_ROUTE}
           component={ConnectedAccounts}
@@ -345,15 +346,15 @@ export default class Home extends PureComponent {
         />
         <div className="home__container">
           {!swapsWelcomeMessageHasBeenShown && swapsEnabled && isMainnet ? (
-            <SwapsIntroPopup onClose={setSwapsWelcomeMessageHasBeenShown} />
+            <SwapsIntroPopup onClose={setSwapsWelcomeMessageHasBeenShown}/>
           ) : null}
           {isPopup && !connectedStatusPopoverHasBeenShown
             ? this.renderPopover()
             : null}
           <div className="home__main-view">
-            <MenuBar />
+            <MenuBar/>
             <div className="home__balance-wrapper">
-              <EthOverview />
+              <EthOverview/>
             </div>
             <Tabs
               defaultActiveTabName={defaultHomeActiveTabName}
@@ -378,7 +379,7 @@ export default class Home extends PureComponent {
                 data-testid="home__activity-tab"
                 name={t('activity')}
               >
-                <TransactionList />
+                <TransactionList/>
               </Tab>
             </Tabs>
           </div>

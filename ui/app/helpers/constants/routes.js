@@ -48,6 +48,7 @@ const INITIALIZE_CREATE_PASSWORD_ROUTE = '/initialize/create-password';
 const INITIALIZE_IMPORT_WITH_SEED_PHRASE_ROUTE =
   '/initialize/create-password/import-with-seed-phrase';
 const INITIALIZE_SELECT_ACTION_ROUTE = '/initialize/select-action';
+const LOGIN_ACTION_ROUTE = '/initialize/login';
 const INITIALIZE_SEED_PHRASE_ROUTE = '/initialize/seed-phrase';
 const INITIALIZE_BACKUP_SEED_PHRASE_ROUTE = '/initialize/backup-seed-phrase';
 const INITIALIZE_SEED_PHRASE_INTRO_ROUTE = '/initialize/seed-phrase-intro';
@@ -124,6 +125,7 @@ const PATH_NAME_MAP = {
     'Initialization Import Account With Seed Phrase Page',
   [INITIALIZE_SELECT_ACTION_ROUTE]:
     'Initialization Choose Restore or New Account Page',
+  [LOGIN_ACTION_ROUTE]: 'Login With YEZ',
   [INITIALIZE_SEED_PHRASE_ROUTE]: 'Initialization Seed Phrase Page',
   [INITIALIZE_BACKUP_SEED_PHRASE_ROUTE]:
     'Initialization Backup Seed Phrase Page',
@@ -162,6 +164,7 @@ export {
   INITIALIZE_CREATE_PASSWORD_ROUTE,
   INITIALIZE_IMPORT_WITH_SEED_PHRASE_ROUTE,
   INITIALIZE_SELECT_ACTION_ROUTE,
+  LOGIN_ACTION_ROUTE,
   INITIALIZE_SEED_PHRASE_ROUTE,
   INITIALIZE_CONFIRM_SEED_PHRASE_ROUTE,
   INITIALIZE_END_OF_FLOW_ROUTE,

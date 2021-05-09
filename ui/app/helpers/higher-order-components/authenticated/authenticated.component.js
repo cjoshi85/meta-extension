@@ -4,15 +4,16 @@ import { Redirect, Route } from 'react-router-dom';
 import { UNLOCK_ROUTE, INITIALIZE_ROUTE } from '../../constants/routes';
 
 export default function Authenticated(props) {
-  const { isUnlocked, completedOnboarding } = props;
-
+  let { isUnlocked, completedOnboarding } = props;
+  console.log({ isUnlocked, completedOnboarding });
   switch (true) {
+    //isUnlocked && completedOnboarding
     case isUnlocked && completedOnboarding:
       return <Route {...props} />;
     case !completedOnboarding:
-      return <Redirect to={{ pathname: INITIALIZE_ROUTE }} />;
+      return <Redirect to={{ pathname: INITIALIZE_ROUTE }}/>;
     default:
-      return <Redirect to={{ pathname: UNLOCK_ROUTE }} />;
+      return <Redirect to={{ pathname: UNLOCK_ROUTE }}/>;
   }
 }
 

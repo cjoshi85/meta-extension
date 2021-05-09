@@ -1,0 +1,29 @@
+.login-flow {
+  display: flex;
+  justify-content: center;
+
+  &__form {
+    display: flex;
+    flex-direction: column;
+  }
+
+  &__header {
+    @include H1;
+    margin-bottom: 24px;
+    color: black;
+  }
+
+  &__subheader {
+    margin-bottom: 16px;
+  }
+
+  &__input {
+    max-width: 350px;
+  }
+
+  &__button {
+    margin: 35px 0 14px;
+    width: 170px;
+    height: 44px;
+  }
+}

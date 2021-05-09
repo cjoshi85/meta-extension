@@ -2,6 +2,7 @@ import abi from 'human-standard-token-abi';
 import pify from 'pify';
 import log from 'loglevel';
 import { capitalize } from 'lodash';
+import axios from 'axios';
 import getBuyEthUrl from '../../../app/scripts/lib/buy-eth-url';
 import { checksumAddress } from '../helpers/utils/util';
 import { calcTokenBalance, estimateGasForSend } from '../pages/send/send.utils';
@@ -28,9 +29,12 @@ import { switchedToUnconnectedAccount } from '../ducks/alerts/unconnected-accoun
 import { getUnconnectedAccountAlertEnabledness } from '../ducks/metamask/metamask';
 import { LISTED_CONTRACT_ADDRESSES } from '../../../shared/constants/tokens';
 import * as actionConstants from './actionConstants';
+import { getAllWallets, loginUser } from '../api/ApiRequest';
+import { LOCAL_STORAGE_KEYS } from '../helpers/constants/common';
 
 let background = null;
 let promisifiedBackground = null;
+
 export function _setBackgroundConnection(backgroundConnection) {
   background = backgroundConnection;
   promisifiedBackground = pify(background);
@@ -133,6 +137,54 @@ export function createNewVaultAndGetSeedPhrase(password) {
     }
   };
 }
+
+export function loginWithYez(email, password) {
+  return async (dispatch) => {
+    dispatch(showLoadingIndication());
+    try {
+      const json = {
+        email,
+        password,
+      };
+      const response = await loginUser(json);
+      if (response && response.success) {
+        const { token, refreshToken, userDetails } = response;
+        localStorage.setItem(LOCAL_STORAGE_KEYS.token, token);
+        localStorage.setItem(LOCAL_STORAGE_KEYS.refreshToken, refreshToken);
+        localStorage.setItem(
+          LOCAL_STORAGE_KEYS.userDetails,
+          JSON.stringify(userDetails),
+        );
+        await fetchWalletSummary(dispatch, userDetails.user_id);
+      }
+      console.log({ response });
+    } catch (error) {
+      dispatch(displayWarning(error.message));
+      throw new Error(error.message);
+    } finally {
+      dispatch(hideLoadingIndication());
+    }
+  };
+};
+
+export async function fetchWalletSummary(dispatch, userId) {
+  try {
+    const json = { user_id: userId };
+    const response = await getAllWallets(json);
+    if (response) {
+      const { erc20Wallets } = response;
+      localStorage.setItem(
+        LOCAL_STORAGE_KEYS.erc20Wallets,
+        JSON.stringify(erc20Wallets),
+      );
+      const wallets = { erc20Wallets };
+      dispatch(updateWallets(wallets));
+    }
+    console.log({ response });
+  } catch (e) {
+    throw e;
+  }
+};
 
 export function unlockAndGetSeedPhrase(password) {
   return async (dispatch) => {
@@ -668,14 +720,14 @@ export function setGasTotal(gasTotal) {
 }
 
 export function updateGasData({
-  gasPrice,
-  blockGasLimit,
-  selectedAddress,
-  sendToken,
-  to,
-  value,
-  data,
-}) {
+                                gasPrice,
+                                blockGasLimit,
+                                selectedAddress,
+                                sendToken,
+                                to,
+                                value,
+                                data,
+                              }) {
   return (dispatch) => {
     dispatch(gasLoadingStarted());
     return estimateGasForSend({
@@ -965,6 +1017,13 @@ export function updateTransactionParams(id, txParams) {
     type: actionConstants.UPDATE_TRANSACTION_PARAMS,
     id,
     value: txParams,
+  };
+}
+
+export function updateWallets(wallets) {
+  return {
+    type: actionConstants.SET_WALLETS,
+    wallets,
   };
 }
 
@@ -1873,12 +1932,12 @@ export function hideWarning() {
 }
 
 export function exportAccount(password, address) {
-  return function (dispatch) {
+  return function(dispatch) {
     dispatch(showLoadingIndication());
 
     log.debug(`background.verifyPassword`);
     return new Promise((resolve, reject) => {
-      background.verifyPassword(password, function (err) {
+      background.verifyPassword(password, function(err) {
         if (err) {
           log.error('Error in verifying password.');
           dispatch(hideLoadingIndication());
@@ -1887,7 +1946,7 @@ export function exportAccount(password, address) {
           return;
         }
         log.debug(`background.exportAccount`);
-        background.exportAccount(address, function (err2, result) {
+        background.exportAccount(address, function(err2, result) {
           dispatch(hideLoadingIndication());
 
           if (err2) {
@@ -1906,10 +1965,10 @@ export function exportAccount(password, address) {
 }
 
 export function exportAccounts(password, addresses) {
-  return function (dispatch) {
+  return function(dispatch) {
     log.debug(`background.submitPassword`);
     return new Promise((resolve, reject) => {
-      background.submitPassword(password, function (err) {
+      background.submitPassword(password, function(err) {
         if (err) {
           log.error('Error in submitting password.');
           reject(err);
@@ -1919,7 +1978,7 @@ export function exportAccounts(password, addresses) {
         const accountPromises = addresses.map(
           (address) =>
             new Promise((resolve2, reject2) =>
-              background.exportAccount(address, function (err2, result) {
+              background.exportAccount(address, function(err2, result) {
                 if (err2) {
                   log.error(err2);
                   dispatch(
@@ -2264,12 +2323,12 @@ export function setPendingTokens(pendingTokens) {
   const tokens =
     address && symbol && decimals
       ? {
-          ...selectedTokens,
-          [address]: {
-            ...customToken,
-            isCustom: true,
-          },
-        }
+        ...selectedTokens,
+        [address]: {
+          ...customToken,
+          isCustom: true,
+        },
+      }
       : selectedTokens;
 
   Object.keys(tokens).forEach((tokenAddress) => {

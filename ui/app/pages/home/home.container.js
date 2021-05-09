@@ -78,7 +78,7 @@ const mapStateToProps = (state) => {
     activeTabHasPermissions(state) &&
     getWeb3ShimUsageStateForOrigin(state, originOfCurrentTab) ===
       WEB3_SHIM_USAGE_ALERT_STATES.RECORDED;
-
+  console.log({ state });
   return {
     forgottenPassword,
     suggestedTokens,

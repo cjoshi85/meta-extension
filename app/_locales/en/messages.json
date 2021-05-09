@@ -2314,5 +2314,29 @@
   },
   "zeroGasPriceOnSpeedUpError": {
     "message": "Zero gas price on speed up"
+  },
+  "welcomeYez": {
+    "message": "Welcome to YEZ Extension"
+  },
+  "yezExtensionDescription": {
+    "message": "Connecting you to Ethereum and the Decentralized Web."
+  },
+  "loginYEZHeader": {
+    "message": "Login With YEZ"
+  },
+  "emailInput": {
+    "message": "Email Id"
+  },
+  "passwordInput": {
+    "message": "Password"
+  },
+  "invalidEmail": {
+    "message": "Please enter valid email id"
+  },
+  "invalidPassword": {
+    "message": "Please enter valid password"
+  },
+  "login": {
+    "message": "Login"
   }
 }

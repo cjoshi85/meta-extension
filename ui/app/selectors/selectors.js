@@ -279,7 +279,7 @@ export function getAccountsWithLabels(state) {
 export function getCurrentAccountWithSendEtherInfo(state) {
   const currentAddress = getSelectedAddress(state);
   const accounts = accountsWithSendEtherInfoSelector(state);
-
+  console.log({currentAddress,accounts});
   return getAccountByAddress(accounts, currentAddress);
 }
 

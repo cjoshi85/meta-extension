@@ -25,14 +25,16 @@ import {
   getUnconnectedAccountAlertEnabledness,
   getUnconnectedAccountAlertShown,
 } from './app/ducks/metamask/metamask';
+import { LOCAL_STORAGE_KEYS } from './app/helpers/constants/common';
 
 log.setLevel(global.METAMASK_DEBUG ? 'debug' : 'warn');
 
 export default function launchMetamaskUi(opts, cb) {
   const { backgroundConnection } = opts;
+  console.log({ backgroundConnection });
   actions._setBackgroundConnection(backgroundConnection);
   // check if we are unlocked first
-  backgroundConnection.getState(function (err, metamaskState) {
+  backgroundConnection.getState(function(err, metamaskState) {
     if (err) {
       cb(err);
       return;
@@ -63,6 +65,12 @@ async function startApp(metamaskState, backgroundConnection, opts) {
   if (metamaskState.textDirection === 'rtl') {
     await switchDirection('rtl');
   }
+  // yez extension changes
+  // const walletsObj = localStorage.getItem(LOCAL_STORAGE_KEYS.erc20Wallets);
+  // const wallets = walletsObj ? JSON.parse(walletsObj) : [];
+  // metamaskState.wallets = wallets;
+  // metamaskState.isUnlocked = true;
+  // metamaskState.selectedAddress = wallets ? wallets[0].address : '';
 
   const draftInitialState = {
     activeTab: opts.activeTab,
@@ -105,7 +113,7 @@ async function startApp(metamaskState, backgroundConnection, opts) {
       actions.setUnconnectedAccountAlertShown(origin);
     }
   }
-
+  console.log({ draftInitialState });
   const store = configureStore(draftInitialState);
 
   // if unconfirmed txs, start on txConf page
@@ -154,7 +162,7 @@ async function startApp(metamaskState, backgroundConnection, opts) {
   };
 
   // start app
-  render(<Root store={store} />, opts.container);
+  render(<Root store={store}/>, opts.container);
 
   return store;
 }
@@ -183,13 +191,13 @@ function maskObject(object, mask) {
 }
 
 function setupDebuggingHelpers(store) {
-  window.getCleanAppState = function () {
+  window.getCleanAppState = function() {
     const state = clone(store.getState());
     state.version = global.platform.getVersion();
     state.browser = window.navigator.userAgent;
     return state;
   };
-  window.getSentryState = function () {
+  window.getSentryState = function() {
     const fullState = store.getState();
     const debugState = maskObject(fullState, SENTRY_STATE);
     return {
@@ -200,7 +208,7 @@ function setupDebuggingHelpers(store) {
   };
 }
 
-window.logStateString = function (cb) {
+window.logStateString = function(cb) {
   const state = window.getCleanAppState();
   global.platform.getPlatformInfo((err, platform) => {
     if (err) {
@@ -213,7 +221,7 @@ window.logStateString = function (cb) {
   });
 };
 
-window.logState = function (toClipboard) {
+window.logState = function(toClipboard) {
   return window.logStateString((err, result) => {
     if (err) {
       console.error(err.message);

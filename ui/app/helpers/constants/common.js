@@ -13,3 +13,10 @@ export const GAS_ESTIMATE_TYPES = {
   FAST: 'FAST',
   FASTEST: 'FASTEST',
 };
+
+export const LOCAL_STORAGE_KEYS = {
+  userDetails: 'userDetails',
+  token: 'token',
+  refreshToken: 'refreshToken',
+  erc20Wallets: 'erc20Wallets',
+};

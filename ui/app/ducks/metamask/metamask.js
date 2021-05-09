@@ -5,7 +5,7 @@ import { NETWORK_TYPE_RPC } from '../../../../shared/constants/network';
 export default function reduceMetamask(state = {}, action) {
   const metamaskState = {
     isInitialized: false,
-    isUnlocked: false,
+    isUnlocked: true,
     isAccountMenuOpen: false,
     identities: {},
     unapprovedTxs: {},
@@ -56,7 +56,7 @@ export default function reduceMetamask(state = {}, action) {
     case actionConstants.LOCK_METAMASK:
       return {
         ...metamaskState,
-        isUnlocked: false,
+        isUnlocked: true,
       };
 
     case actionConstants.SET_RPC_TARGET:
@@ -366,6 +366,13 @@ export default function reduceMetamask(state = {}, action) {
       };
     }
 
+    case actionConstants.SET_WALLETS: {
+      return {
+        ...metamaskState,
+        wallets: action.wallets,
+        isUnlocked: true,
+      };
+    }
     default:
       return metamaskState;
   }

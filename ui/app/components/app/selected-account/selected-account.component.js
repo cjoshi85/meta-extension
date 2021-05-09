@@ -33,7 +33,7 @@ class SelectedAccount extends Component {
     const { t } = this.context;
     const { selectedIdentity } = this.props;
     const checksummedAddress = checksumAddress(selectedIdentity.address);
-
+    console.log({selectedIdentity});
     return (
       <div className="selected-account">
         <Tooltip

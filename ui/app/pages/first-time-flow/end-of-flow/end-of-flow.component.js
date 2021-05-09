@@ -20,6 +20,7 @@ export default class EndOfFlowScreen extends PureComponent {
       location: PropTypes.string,
       tabId: PropTypes.number,
     }),
+    wallets: PropTypes.object,
   };
 
   async _beforeUnload() {
@@ -63,58 +64,68 @@ export default class EndOfFlowScreen extends PureComponent {
 
   render() {
     const { t } = this.context;
-    const { onboardingInitiator } = this.props;
-
+    const { onboardingInitiator, wallets = {} } = this.props;
+    const { erc20Wallets = [] } = wallets;
+    const renderWalletDetails = ({ address, wallet_name }) => {
+      return (
+        <div className="end-of-flow__text-3">
+          Wallet Name : {wallet_name} Address :{address}
+        </div>
+      );
+    };
     return (
       <div className="end-of-flow">
-        <MetaFoxLogo />
+        {/*<MetaFoxLogo/>*/}
         <div className="end-of-flow__emoji">🎉</div>
         <div className="first-time-flow__header">{t('congratulations')}</div>
         <div className="first-time-flow__text-block end-of-flow__text-1">
-          {t('endOfFlowMessage1')}
+          {/*{t('endOfFlowMessage1')}*/}
+          There are total {erc20Wallets.length} wallets associated with your account
         </div>
         <div className="first-time-flow__text-block end-of-flow__text-2">
-          {t('endOfFlowMessage2')}
+          {/*{t('endOfFlowMessage2')}*/}
+          Below are the details
         </div>
-        <div className="end-of-flow__text-3">
-          {`• ${t('endOfFlowMessage3')}`}
-        </div>
-        <div className="end-of-flow__text-3">
-          {`• ${t('endOfFlowMessage4')}`}
-        </div>
-        <div className="end-of-flow__text-3">
-          {`• ${t('endOfFlowMessage5')}`}
-        </div>
-        <div className="end-of-flow__text-3">
-          {`• ${t('endOfFlowMessage6')}`}
-        </div>
-        <div className="end-of-flow__text-3">
-          •{' '}
-          {t('endOfFlowMessage7', [
-            <a
-              target="_blank"
-              key="metamaskSupportLink"
-              rel="noopener noreferrer"
-              href="https://metamask.zendesk.com/hc/en-us/requests/new"
-            >
-              <span className="first-time-flow__link-text">
-                {this.context.t('here')}
-              </span>
-            </a>,
-          ])}
-        </div>
-        <div className="first-time-flow__text-block end-of-flow__text-4">
-          {`*${t('endOfFlowMessage8')}`}&nbsp;
-          <a
-            href="https://metamask.zendesk.com/hc/en-us/articles/360015489591-Basic-Safety-Tips"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <span className="first-time-flow__link-text">
-              {t('endOfFlowMessage9')}
-            </span>
-          </a>
-        </div>
+        {/*{erc20Wallets.map(renderWalletDetails)}*/}
+        {/*<div className="end-of-flow__text-3">*/}
+        {/*  {`• ${t('endOfFlowMessage3')}`}*/}
+        {/*</div>*/}
+        {/*<div className="end-of-flow__text-3">*/}
+        {/*  {`• ${t('endOfFlowMessage4')}`}*/}
+        {/*</div>*/}
+        {/*<div className="end-of-flow__text-3">*/}
+        {/*  {`• ${t('endOfFlowMessage5')}`}*/}
+        {/*</div>*/}
+        {/*<div className="end-of-flow__text-3">*/}
+        {/*  {`• ${t('endOfFlowMessage6')}`}*/}
+        {/*</div>*/}
+        {/*<div className="end-of-flow__text-3">*/}
+        {/*  •{' '}*/}
+        {/*  {t('endOfFlowMessage7', [*/}
+        {/*    <a*/}
+        {/*      target="_blank"*/}
+        {/*      key="metamaskSupportLink"*/}
+        {/*      rel="noopener noreferrer"*/}
+        {/*      href="https://metamask.zendesk.com/hc/en-us/requests/new"*/}
+        {/*    >*/}
+        {/*      <span className="first-time-flow__link-text">*/}
+        {/*        {this.context.t('here')}*/}
+        {/*      </span>*/}
+        {/*    </a>,*/}
+        {/*  ])}*/}
+        {/*</div>*/}
+        {/*<div className="first-time-flow__text-block end-of-flow__text-4">*/}
+        {/*  {`*${t('endOfFlowMessage8')}`}&nbsp;*/}
+        {/*  <a*/}
+        {/*    href="https://metamask.zendesk.com/hc/en-us/articles/360015489591-Basic-Safety-Tips"*/}
+        {/*    target="_blank"*/}
+        {/*    rel="noopener noreferrer"*/}
+        {/*  >*/}
+        {/*    <span className="first-time-flow__link-text">*/}
+        {/*      {t('endOfFlowMessage9')}*/}
+        {/*    </span>*/}
+        {/*  </a>*/}
+        {/*</div>*/}
         <Button
           type="primary"
           className="first-time-flow__button"
