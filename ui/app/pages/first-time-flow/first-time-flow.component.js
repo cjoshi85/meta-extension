@@ -80,6 +80,7 @@ export default class FirstTimeFlow extends PureComponent {
     const { createNewAccountFromSeed } = this.props;
 
     try {
+      console.log('going here');
       const vault = await createNewAccountFromSeed(password, seedPhrase);
       return vault;
     } catch (error) {

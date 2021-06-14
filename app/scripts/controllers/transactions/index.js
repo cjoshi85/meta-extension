@@ -171,7 +171,7 @@ export default class TransactionController extends EventEmitter {
    * @param {Object} opts - with the key origin to put the origin on the txMeta
    */
   async newUnapprovedTransaction(txParams, opts = {}) {
-    log.debug(
+    console.log(
       `MetaMaskController newUnapprovedTransaction ${JSON.stringify(txParams)}`,
     );
 
@@ -856,7 +856,7 @@ export default class TransactionController extends EventEmitter {
     try {
       name = data && hstInterface.parseTransaction({ data }).name;
     } catch (error) {
-      log.debug('Failed to parse transaction data.', error, data);
+      console.log('Failed to parse transaction data.', error, data);
     }
 
     const tokenMethodName = [

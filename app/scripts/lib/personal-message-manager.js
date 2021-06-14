@@ -130,7 +130,7 @@ export default class PersonalMessageManager extends EventEmitter {
    *
    */
   addUnapprovedMessage(msgParams, req) {
-    log.debug(
+    console.log(
       `PersonalMessageManager addUnapprovedMessage: ${JSON.stringify(
         msgParams,
       )}`,
@@ -327,7 +327,7 @@ export default class PersonalMessageManager extends EventEmitter {
         return addHexPrefix(stripped);
       }
     } catch (e) {
-      log.debug(`Message was not hex encoded, interpreting as utf8.`);
+      console.log(`Message was not hex encoded, interpreting as utf8.`);
     }
 
     return bufferToHex(Buffer.from(data, 'utf8'));

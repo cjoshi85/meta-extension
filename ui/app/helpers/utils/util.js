@@ -387,3 +387,11 @@ export function constructTxParams({
   }
   return addHexPrefixToObjectValues(txParams);
 }
+
+export function constructWalletObjects(wallet) {
+  const obj = {};
+  wallet.map((item) => {
+    obj[item.address] = item;
+  });
+  return obj;
+};

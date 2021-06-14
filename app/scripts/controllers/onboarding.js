@@ -59,12 +59,12 @@ export default class OnboardingController {
    */
   registerOnboarding = async (location, tabId) => {
     if (this.completedOnboarding) {
-      log.debug('Ignoring registerOnboarding; user already onboarded');
+      console.log('Ignoring registerOnboarding; user already onboarded');
       return;
     }
     const onboardingTabs = { ...this.store.getState().onboardingTabs };
     if (!onboardingTabs[location] || onboardingTabs[location] !== tabId) {
-      log.debug(
+      console.log(
         `Registering onboarding tab at location '${location}' with tabId '${tabId}'`,
       );
       onboardingTabs[location] = tabId;

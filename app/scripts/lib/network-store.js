@@ -32,7 +32,7 @@ export default class ReadOnlyNetworkStore {
         this._state = await response.json();
       }
     } catch (error) {
-      log.debug(`Error loading network state: '${error.message}'`);
+      console.log(`Error loading network state: '${error.message}'`);
     } finally {
       this._initialized = true;
     }

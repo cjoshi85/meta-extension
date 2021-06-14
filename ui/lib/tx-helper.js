@@ -12,8 +12,8 @@ export default function txHelper(
   network,
   chainId,
 ) {
-  log.debug('tx-helper called with params:');
-  log.debug({
+  console.log('tx-helper called with params:');
+  console.log({
     unapprovedTxs,
     unapprovedMsgs,
     personalMsgs,
@@ -29,30 +29,30 @@ export default function txHelper(
         transactionMatchesNetwork(txMeta, chainId, network),
       )
     : valuesFor(unapprovedTxs);
-  log.debug(`tx helper found ${txValues.length} unapproved txs`);
+  console.log(`tx helper found ${txValues.length} unapproved txs`);
 
   const msgValues = valuesFor(unapprovedMsgs);
-  log.debug(`tx helper found ${msgValues.length} unsigned messages`);
+  console.log(`tx helper found ${msgValues.length} unsigned messages`);
   let allValues = txValues.concat(msgValues);
 
   const personalValues = valuesFor(personalMsgs);
-  log.debug(
+  console.log(
     `tx helper found ${personalValues.length} unsigned personal messages`,
   );
   allValues = allValues.concat(personalValues);
 
   const decryptValues = valuesFor(decryptMsgs);
-  log.debug(`tx helper found ${decryptValues.length} decrypt requests`);
+  console.log(`tx helper found ${decryptValues.length} decrypt requests`);
   allValues = allValues.concat(decryptValues);
 
   const encryptionPublicKeyValues = valuesFor(encryptionPublicKeyMsgs);
-  log.debug(
+  console.log(
     `tx helper found ${encryptionPublicKeyValues.length} encryptionPublicKey requests`,
   );
   allValues = allValues.concat(encryptionPublicKeyValues);
 
   const typedValues = valuesFor(typedMessages);
-  log.debug(`tx helper found ${typedValues.length} unsigned typed messages`);
+  console.log(`tx helper found ${typedValues.length} unsigned typed messages`);
   allValues = allValues.concat(typedValues);
 
   allValues = allValues.sort((a, b) => {

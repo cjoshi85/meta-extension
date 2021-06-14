@@ -29,8 +29,8 @@ const seedPhraseVerifier = {
 
     const keyring = new Keyring(opts);
     const restoredAccounts = await keyring.getAccounts();
-    log.debug(`Created accounts: ${JSON.stringify(createdAccounts)}`);
-    log.debug(`Restored accounts: ${JSON.stringify(restoredAccounts)}`);
+    console.log(`Created accounts: ${JSON.stringify(createdAccounts)}`);
+    console.log(`Restored accounts: ${JSON.stringify(restoredAccounts)}`);
 
     if (restoredAccounts.length !== createdAccounts.length) {
       // this should not happen...

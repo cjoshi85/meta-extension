@@ -57,7 +57,7 @@ export default class AccountTracker {
     const initState = {
       accounts: {},
       currentBlockGasLimit: '',
-    };
+    };console.log('updated from here');
     this.store = new ObservableStore(initState);
 
     this._provider = opts.provider;
@@ -164,7 +164,7 @@ export default class AccountTracker {
    * Removes all addresses and associated balances
    */
 
-  clearAccounts() {
+  clearAccounts() {console.log('cleared accounts');
     this.store.updateState({ accounts: {} });
   }
 

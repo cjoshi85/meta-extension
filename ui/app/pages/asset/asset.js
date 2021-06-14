@@ -13,7 +13,7 @@ const Asset = () => {
   const { asset } = useParams();
 
   const token = tokens.find(({ address }) => address === asset);
-
+  console.log({ tokens, asset, token });
   let content;
   if (token) {
     content = <TokenAsset token={token} />;

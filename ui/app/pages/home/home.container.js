@@ -55,6 +55,7 @@ const mapStateToProps = (state) => {
     defaultHomeActiveTabName,
     swapsState,
   } = metamask;
+  console.log({state});
   const accountBalance = getCurrentEthBalance(state);
   const { forgottenPassword, threeBoxLastUpdated } = appState;
   const totalUnapprovedCount = getTotalUnapprovedCount(state);

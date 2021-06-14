@@ -60,7 +60,7 @@ export default class EnsController {
     try {
       domain = await this._ens.reverse(address);
     } catch (error) {
-      log.debug(error);
+      console.log(error);
       return undefined;
     }
 
@@ -68,7 +68,7 @@ export default class EnsController {
     try {
       registeredAddress = await this._ens.lookup(domain);
     } catch (error) {
-      log.debug(error);
+      console.log(error);
       return undefined;
     }
 

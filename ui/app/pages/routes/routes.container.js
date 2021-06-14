@@ -28,7 +28,7 @@ function mapStateToProps(state) {
     loadingMessage,
   } = appState;
   const { autoLockTimeLimit = 0 } = getPreferences(state);
-
+  console.log({metamask: state});
   return {
     sidebar,
     alertOpen,

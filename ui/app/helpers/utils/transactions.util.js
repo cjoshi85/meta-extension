@@ -35,7 +35,7 @@ export function getTokenData(data) {
   try {
     return hstInterface.parseTransaction({ data });
   } catch (error) {
-    log.debug('Failed to parse transaction data.', error, data);
+    console.log('Failed to parse transaction data.', error, data);
     return undefined;
   }
 }

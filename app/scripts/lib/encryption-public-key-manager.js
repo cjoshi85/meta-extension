@@ -122,7 +122,7 @@ export default class EncryptionPublicKeyManager extends EventEmitter {
    *
    */
   addUnapprovedMessage(address, req) {
-    log.debug(`EncryptionPublicKeyManager addUnapprovedMessage: address`);
+    console.log(`EncryptionPublicKeyManager addUnapprovedMessage: address`);
     // create txData obj with parameters and meta data
     const time = new Date().getTime();
     const msgId = createId();

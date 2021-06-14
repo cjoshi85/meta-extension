@@ -8,7 +8,7 @@ export default function Authenticated(props) {
   console.log({ isUnlocked, completedOnboarding });
   switch (true) {
     //isUnlocked && completedOnboarding
-    case isUnlocked && completedOnboarding:
+    case completedOnboarding:
       return <Route {...props} />;
     case !completedOnboarding:
       return <Redirect to={{ pathname: INITIALIZE_ROUTE }}/>;

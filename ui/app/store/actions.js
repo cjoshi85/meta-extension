@@ -37,6 +37,7 @@ let promisifiedBackground = null;
 
 export function _setBackgroundConnection(backgroundConnection) {
   background = backgroundConnection;
+  console.log({background});
   promisifiedBackground = pify(background);
 }
 
@@ -52,7 +53,7 @@ export function tryUnlockMetamask(password) {
   return (dispatch) => {
     dispatch(showLoadingIndication());
     dispatch(unlockInProgress());
-    log.debug(`background.submitPassword`);
+    console.log(`background.submitPassword`);
 
     return new Promise((resolve, reject) => {
       background.submitPassword(password, (error) => {
@@ -95,7 +96,7 @@ export function tryUnlockMetamask(password) {
 export function createNewVaultAndRestore(password, seed) {
   return (dispatch) => {
     dispatch(showLoadingIndication());
-    log.debug(`background.createNewVaultAndRestore`);
+    console.log(`background.createNewVaultAndRestore`);
     let vault;
     return new Promise((resolve, reject) => {
       background.createNewVaultAndRestore(password, seed, (err, _vault) => {
@@ -109,6 +110,7 @@ export function createNewVaultAndRestore(password, seed) {
     })
       .then(() => dispatch(unMarkPasswordForgotten()))
       .then(() => {
+        console.log('setting');
         dispatch(showAccountsPage());
         dispatch(hideLoadingIndication());
         return vault;
@@ -156,6 +158,7 @@ export function loginWithYez(email, password) {
           JSON.stringify(userDetails),
         );
         await fetchWalletSummary(dispatch, userDetails.user_id);
+        await forceUpdateMetamaskState(dispatch);
       }
       console.log({ response });
     } catch (error) {
@@ -178,7 +181,9 @@ export async function fetchWalletSummary(dispatch, userId) {
         JSON.stringify(erc20Wallets),
       );
       const wallets = { erc20Wallets };
+      debugger
       dispatch(updateWallets(wallets));
+      debugger
     }
     console.log({ response });
   } catch (e) {
@@ -259,7 +264,7 @@ export function verifySeedPhrase() {
 export function requestRevealSeedWords(password) {
   return async (dispatch) => {
     dispatch(showLoadingIndication());
-    log.debug(`background.verifyPassword`);
+    console.log(`background.verifyPassword`);
 
     try {
       await verifyPassword(password);
@@ -289,7 +294,7 @@ export function tryReverseResolveAddress(address) {
 
 export function fetchInfoToSync() {
   return (dispatch) => {
-    log.debug(`background.fetchInfoToSync`);
+    console.log(`background.fetchInfoToSync`);
     return new Promise((resolve, reject) => {
       background.fetchInfoToSync((err, result) => {
         if (err) {
@@ -358,9 +363,9 @@ export function importNewAccount(strategy, args) {
       showLoadingIndication('This may take a while, please be patient.'),
     );
     try {
-      log.debug(`background.importAccountWithStrategy`);
+      console.log(`background.importAccountWithStrategy`);
       await promisifiedBackground.importAccountWithStrategy(strategy, args);
-      log.debug(`background.getState`);
+      console.log(`background.getState`);
       newState = await promisifiedBackground.getState();
     } catch (err) {
       dispatch(displayWarning(err.message));
@@ -381,7 +386,7 @@ export function importNewAccount(strategy, args) {
 }
 
 export function addNewAccount() {
-  log.debug(`background.addNewAccount`);
+  console.log(`background.addNewAccount`);
   return async (dispatch, getState) => {
     const oldIdentities = getState().metamask.identities;
     dispatch(showLoadingIndication());
@@ -406,7 +411,7 @@ export function addNewAccount() {
 }
 
 export function checkHardwareStatus(deviceName, hdPath) {
-  log.debug(`background.checkHardwareStatus`, deviceName, hdPath);
+  console.log(`background.checkHardwareStatus`, deviceName, hdPath);
   return async (dispatch) => {
     dispatch(showLoadingIndication());
 
@@ -430,7 +435,7 @@ export function checkHardwareStatus(deviceName, hdPath) {
 }
 
 export function forgetDevice(deviceName) {
-  log.debug(`background.forgetDevice`, deviceName);
+  console.log(`background.forgetDevice`, deviceName);
   return async (dispatch) => {
     dispatch(showLoadingIndication());
     try {
@@ -448,7 +453,7 @@ export function forgetDevice(deviceName) {
 }
 
 export function connectHardware(deviceName, page, hdPath) {
-  log.debug(`background.connectHardware`, deviceName, page, hdPath);
+  console.log(`background.connectHardware`, deviceName, page, hdPath);
   return async (dispatch) => {
     dispatch(
       showLoadingIndication(`Looking for your ${capitalize(deviceName)}...`),
@@ -480,7 +485,7 @@ export function unlockHardwareWalletAccounts(
   hdPath,
   hdPathDescription,
 ) {
-  log.debug(
+  console.log(
     `background.unlockHardwareWalletAccount`,
     indexes,
     deviceName,
@@ -524,7 +529,7 @@ export function showQrScanner() {
 export function setCurrentCurrency(currencyCode) {
   return async (dispatch) => {
     dispatch(showLoadingIndication());
-    log.debug(`background.setCurrentCurrency`);
+    console.log(`background.setCurrentCurrency`);
     let data;
     try {
       data = await promisifiedBackground.setCurrentCurrency(currencyCode);
@@ -548,10 +553,10 @@ export function setCurrentCurrency(currencyCode) {
 }
 
 export function signMsg(msgData) {
-  log.debug('action - signMsg');
+  console.log('action - signMsg');
   return async (dispatch) => {
     dispatch(showLoadingIndication());
-    log.debug(`actions calling background.signMessage`);
+    console.log(`actions calling background.signMessage`);
     let newState;
     try {
       newState = await promisifiedBackground.signMessage(msgData);
@@ -571,10 +576,10 @@ export function signMsg(msgData) {
 }
 
 export function signPersonalMsg(msgData) {
-  log.debug('action - signPersonalMsg');
+  console.log('action - signPersonalMsg');
   return async (dispatch) => {
     dispatch(showLoadingIndication());
-    log.debug(`actions calling background.signPersonalMessage`);
+    console.log(`actions calling background.signPersonalMessage`);
 
     let newState;
     try {
@@ -595,9 +600,9 @@ export function signPersonalMsg(msgData) {
 }
 
 export function decryptMsgInline(decryptedMsgData) {
-  log.debug('action - decryptMsgInline');
+  console.log('action - decryptMsgInline');
   return async (dispatch) => {
-    log.debug(`actions calling background.decryptMessageInline`);
+    console.log(`actions calling background.decryptMessageInline`);
 
     let newState;
     try {
@@ -616,10 +621,10 @@ export function decryptMsgInline(decryptedMsgData) {
 }
 
 export function decryptMsg(decryptedMsgData) {
-  log.debug('action - decryptMsg');
+  console.log('action - decryptMsg');
   return async (dispatch) => {
     dispatch(showLoadingIndication());
-    log.debug(`actions calling background.decryptMessage`);
+    console.log(`actions calling background.decryptMessage`);
 
     let newState;
     try {
@@ -640,10 +645,10 @@ export function decryptMsg(decryptedMsgData) {
 }
 
 export function encryptionPublicKeyMsg(msgData) {
-  log.debug('action - encryptionPublicKeyMsg');
+  console.log('action - encryptionPublicKeyMsg');
   return async (dispatch) => {
     dispatch(showLoadingIndication());
-    log.debug(`actions calling background.encryptionPublicKey`);
+    console.log(`actions calling background.encryptionPublicKey`);
 
     let newState;
     try {
@@ -664,10 +669,10 @@ export function encryptionPublicKeyMsg(msgData) {
 }
 
 export function signTypedMsg(msgData) {
-  log.debug('action - signTypedMsg');
+  console.log('action - signTypedMsg');
   return async (dispatch) => {
     dispatch(showLoadingIndication());
-    log.debug(`actions calling background.signTypedMessage`);
+    console.log(`actions calling background.signTypedMessage`);
 
     let newState;
     try {
@@ -886,7 +891,7 @@ export function signTokenTx(tokenAddress, toAddress, amount, txData) {
 }
 
 const updateMetamaskStateFromBackground = () => {
-  log.debug(`background.getState`);
+  console.log(`background.getState`);
 
   return new Promise((resolve, reject) => {
     background.getState((error, newState) => {
@@ -928,7 +933,7 @@ export function updateTransaction(txData, dontShowLoadingIndicator) {
 }
 
 export function addUnapprovedTransaction(txParams, origin) {
-  log.debug('background.addUnapprovedTransaction');
+  console.log('background.addUnapprovedTransaction');
 
   return () => {
     return new Promise((resolve, reject) => {
@@ -991,6 +996,7 @@ export function completedTx(id) {
       network,
       provider: { chainId },
     } = state.metamask;
+    console.log({metamask: state.metamask});
     const unconfirmedActions = txHelper(
       unapprovedTxs,
       unapprovedMsgs,
@@ -1306,7 +1312,7 @@ const backgroundSetLocked = () => {
 };
 
 export function lockMetamask() {
-  log.debug(`background.setLocked`);
+  console.log(`background.setLocked`);
 
   return (dispatch) => {
     dispatch(showLoadingIndication());
@@ -1330,7 +1336,7 @@ export function lockMetamask() {
 }
 
 async function _setSelectedAddress(dispatch, address) {
-  log.debug(`background.setSelectedAddress`);
+  console.log(`background.setSelectedAddress`);
   const tokens = await promisifiedBackground.setSelectedAddress(address);
   dispatch(updateTokens(tokens));
 }
@@ -1338,7 +1344,7 @@ async function _setSelectedAddress(dispatch, address) {
 export function setSelectedAddress(address) {
   return async (dispatch) => {
     dispatch(showLoadingIndication());
-    log.debug(`background.setSelectedAddress`);
+    console.log(`background.setSelectedAddress`);
     try {
       await _setSelectedAddress(dispatch, address);
     } catch (error) {
@@ -1353,7 +1359,7 @@ export function setSelectedAddress(address) {
 export function showAccountDetail(address) {
   return async (dispatch, getState) => {
     dispatch(showLoadingIndication());
-    log.debug(`background.setSelectedAddress`);
+    console.log(`background.setSelectedAddress`);
 
     const state = getState();
     const unconnectedAccountAccountAlertIsEnabled = getUnconnectedAccountAlertEnabledness(
@@ -1548,7 +1554,7 @@ export function clearPendingTokens() {
 }
 
 export function createCancelTransaction(txId, customGasPrice, customGasLimit) {
-  log.debug('background.cancelTransaction');
+  console.log('background.cancelTransaction');
   let newTxId;
 
   return (dispatch) => {
@@ -1577,7 +1583,7 @@ export function createCancelTransaction(txId, customGasPrice, customGasLimit) {
 }
 
 export function createSpeedUpTransaction(txId, customGasPrice, customGasLimit) {
-  log.debug('background.createSpeedUpTransaction');
+  console.log('background.createSpeedUpTransaction');
   let newTx;
 
   return (dispatch) => {
@@ -1605,7 +1611,7 @@ export function createSpeedUpTransaction(txId, customGasPrice, customGasLimit) {
 }
 
 export function createRetryTransaction(txId, customGasPrice, customGasLimit) {
-  log.debug('background.createRetryTransaction');
+  console.log('background.createRetryTransaction');
   let newTx;
 
   return (dispatch) => {
@@ -1638,7 +1644,7 @@ export function createRetryTransaction(txId, customGasPrice, customGasLimit) {
 
 export function setProviderType(type) {
   return async (dispatch) => {
-    log.debug(`background.setProviderType`, type);
+    console.log(`background.setProviderType`, type);
 
     try {
       await promisifiedBackground.setProviderType(type);
@@ -1666,7 +1672,7 @@ export function updateAndSetCustomRpc(
   rpcPrefs,
 ) {
   return async (dispatch) => {
-    log.debug(
+    console.log(
       `background.updateAndSetCustomRpc: ${newRpc} ${chainId} ${ticker} ${nickname}`,
     );
 
@@ -1700,7 +1706,7 @@ export function editRpc(
   rpcPrefs,
 ) {
   return async (dispatch) => {
-    log.debug(`background.delRpcTarget: ${oldRpc}`);
+    console.log(`background.delRpcTarget: ${oldRpc}`);
     try {
       promisifiedBackground.delCustomRpc(oldRpc);
     } catch (error) {
@@ -1732,7 +1738,7 @@ export function editRpc(
 
 export function setRpcTarget(newRpc, chainId, ticker = 'ETH', nickname) {
   return async (dispatch) => {
-    log.debug(
+    console.log(
       `background.setRpcTarget: ${newRpc} ${chainId} ${ticker} ${nickname}`,
     );
 
@@ -1763,7 +1769,7 @@ export function rollbackToPreviousProvider() {
 
 export function delRpcTarget(oldRpc) {
   return (dispatch) => {
-    log.debug(`background.delRpcTarget: ${oldRpc}`);
+    console.log(`background.delRpcTarget: ${oldRpc}`);
     return new Promise((resolve, reject) => {
       background.delCustomRpc(oldRpc, (err) => {
         if (err) {
@@ -1780,7 +1786,7 @@ export function delRpcTarget(oldRpc) {
 
 // Calls the addressBookController to add a new address.
 export function addToAddressBook(recipient, nickname = '', memo = '') {
-  log.debug(`background.addToAddressBook`);
+  console.log(`background.addToAddressBook`);
 
   return async (dispatch, getState) => {
     const { chainId } = getState().metamask.provider;
@@ -1809,7 +1815,7 @@ export function addToAddressBook(recipient, nickname = '', memo = '') {
  * @param {string} addressToRemove - Address of the entry to remove from the address book
  */
 export function removeFromAddressBook(chainId, addressToRemove) {
-  log.debug(`background.removeFromAddressBook`);
+  console.log(`background.removeFromAddressBook`);
 
   return async () => {
     await promisifiedBackground.removeFromAddressBook(
@@ -1935,7 +1941,7 @@ export function exportAccount(password, address) {
   return function(dispatch) {
     dispatch(showLoadingIndication());
 
-    log.debug(`background.verifyPassword`);
+    console.log(`background.verifyPassword`);
     return new Promise((resolve, reject) => {
       background.verifyPassword(password, function(err) {
         if (err) {
@@ -1945,7 +1951,7 @@ export function exportAccount(password, address) {
           reject(err);
           return;
         }
-        log.debug(`background.exportAccount`);
+        console.log(`background.exportAccount`);
         background.exportAccount(address, function(err2, result) {
           dispatch(hideLoadingIndication());
 
@@ -1966,7 +1972,7 @@ export function exportAccount(password, address) {
 
 export function exportAccounts(password, addresses) {
   return function(dispatch) {
-    log.debug(`background.submitPassword`);
+    console.log(`background.submitPassword`);
     return new Promise((resolve, reject) => {
       background.submitPassword(password, function(err) {
         if (err) {
@@ -1974,7 +1980,7 @@ export function exportAccounts(password, addresses) {
           reject(err);
           return;
         }
-        log.debug(`background.exportAccounts`);
+        console.log(`background.exportAccounts`);
         const accountPromises = addresses.map(
           (address) =>
             new Promise((resolve2, reject2) =>
@@ -2007,7 +2013,7 @@ export function showPrivateKey(key) {
 export function setAccountLabel(account, label) {
   return (dispatch) => {
     dispatch(showLoadingIndication());
-    log.debug(`background.setAccountLabel`);
+    console.log(`background.setAccountLabel`);
 
     return new Promise((resolve, reject) => {
       background.setAccountLabel(account, label, (err) => {
@@ -2160,11 +2166,13 @@ export function setMouseUserState(isMouseUser) {
 }
 
 export async function forceUpdateMetamaskState(dispatch) {
-  log.debug(`background.getState`);
-
+  console.log(`background.getState`);
+  console.log('background.getState');
+  debugger
   let newState;
   try {
     newState = await promisifiedBackground.getState();
+    console.log({ newState });
   } catch (error) {
     dispatch(displayWarning(error.message));
     throw error;
@@ -2182,10 +2190,10 @@ export function toggleAccountMenu() {
 
 export function setParticipateInMetaMetrics(val) {
   return (dispatch) => {
-    log.debug(`background.setParticipateInMetaMetrics`);
+    console.log(`background.setParticipateInMetaMetrics`);
     return new Promise((resolve, reject) => {
       background.setParticipateInMetaMetrics(val, (err, metaMetricsId) => {
-        log.debug(err);
+        console.log(err);
         if (err) {
           dispatch(displayWarning(err.message));
           reject(err);
@@ -2204,7 +2212,7 @@ export function setParticipateInMetaMetrics(val) {
 
 export function setMetaMetricsSendCount(val) {
   return (dispatch) => {
-    log.debug(`background.setMetaMetricsSendCount`);
+    console.log(`background.setMetaMetricsSendCount`);
     return new Promise((resolve, reject) => {
       background.setMetaMetricsSendCount(val, (err) => {
         if (err) {
@@ -2226,7 +2234,7 @@ export function setMetaMetricsSendCount(val) {
 export function setUseBlockie(val) {
   return (dispatch) => {
     dispatch(showLoadingIndication());
-    log.debug(`background.setUseBlockie`);
+    console.log(`background.setUseBlockie`);
     background.setUseBlockie(val, (err) => {
       dispatch(hideLoadingIndication());
       if (err) {
@@ -2243,7 +2251,7 @@ export function setUseBlockie(val) {
 export function setUseNonceField(val) {
   return (dispatch) => {
     dispatch(showLoadingIndication());
-    log.debug(`background.setUseNonceField`);
+    console.log(`background.setUseNonceField`);
     background.setUseNonceField(val, (err) => {
       dispatch(hideLoadingIndication());
       if (err) {
@@ -2260,7 +2268,7 @@ export function setUseNonceField(val) {
 export function setUsePhishDetect(val) {
   return (dispatch) => {
     dispatch(showLoadingIndication());
-    log.debug(`background.setUsePhishDetect`);
+    console.log(`background.setUsePhishDetect`);
     background.setUsePhishDetect(val, (err) => {
       dispatch(hideLoadingIndication());
       if (err) {
@@ -2273,7 +2281,7 @@ export function setUsePhishDetect(val) {
 export function setIpfsGateway(val) {
   return (dispatch) => {
     dispatch(showLoadingIndication());
-    log.debug(`background.setIpfsGateway`);
+    console.log(`background.setIpfsGateway`);
     background.setIpfsGateway(val, (err) => {
       dispatch(hideLoadingIndication());
       if (err) {
@@ -2585,7 +2593,7 @@ export function rejectPendingApproval(id, error) {
 
 export function setFirstTimeFlowType(type) {
   return (dispatch) => {
-    log.debug(`background.setFirstTimeFlowType`);
+    console.log(`background.setFirstTimeFlowType`);
     background.setFirstTimeFlowType(type, (err) => {
       if (err) {
         dispatch(displayWarning(err.message));
@@ -2682,7 +2690,7 @@ export function getContractMethodData(data = '') {
     }
 
     dispatch(loadingMethodDataStarted());
-    log.debug(`loadingMethodData`);
+    console.log(`loadingMethodData`);
 
     return getMethodDataAsync(fourBytePrefix).then(({ name, params }) => {
       dispatch(loadingMethodDataFinished());
@@ -2723,7 +2731,7 @@ export function getTokenParams(tokenAddress) {
     }
 
     dispatch(loadingTokenParamsStarted());
-    log.debug(`loadingTokenParams`);
+    console.log(`loadingTokenParams`);
 
     return fetchSymbolAndDecimals(tokenAddress, existingTokens).then(
       ({ symbol, decimals }) => {
@@ -2736,9 +2744,11 @@ export function getTokenParams(tokenAddress) {
 
 export function setSeedPhraseBackedUp(seedPhraseBackupState) {
   return (dispatch) => {
-    log.debug(`background.setSeedPhraseBackedUp`);
+    console.log('background.setSeedPhraseBackedUp');
+    console.log(`background.setSeedPhraseBackedUp`);
     return new Promise((resolve, reject) => {
       background.setSeedPhraseBackedUp(seedPhraseBackupState, (err) => {
+        console.log({seedPhraseBackupState});
         if (err) {
           dispatch(displayWarning(err.message));
           reject(err);

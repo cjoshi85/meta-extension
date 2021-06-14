@@ -485,7 +485,7 @@ export default class PreferencesController {
             addressBookKey = await provider.send('net_version');
             assert(typeof addressBookKey === 'string');
           } catch (error) {
-            log.debug(error);
+            console.log(error);
             log.warn(
               `Failed to get networkId from ${rpcDetail.rpcUrl}; skipping address book migration`,
             );

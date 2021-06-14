@@ -45,7 +45,8 @@ const TokenOverview = ({ className, token }) => {
   const assetImages = useSelector(getAssetImages);
 
   const keyring = useSelector(getCurrentKeyring);
-  const usingHardwareWallet = keyring.type.search('Hardware') !== -1;
+  // const usingHardwareWallet = keyring.type.search('Hardware') !== -1;
+  const usingHardwareWallet = false;
   const { tokensWithBalances } = useTokenTracker([token]);
   const balanceToRender = tokensWithBalances[0]?.string;
   const balance = tokensWithBalances[0]?.balance;

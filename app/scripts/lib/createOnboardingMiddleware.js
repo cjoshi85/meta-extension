@@ -19,7 +19,7 @@ export default function createOnboardingMiddleware({
       if (req.tabId && req.tabId !== extension.tabs.TAB_ID_NONE) {
         await registerOnboarding(location, req.tabId);
       } else {
-        log.debug(
+        console.log(
           `'wallet_registerOnboarding' message from ${location} ignored due to missing tabId`,
         );
       }

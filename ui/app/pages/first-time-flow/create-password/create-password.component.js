@@ -28,7 +28,7 @@ export default class CreatePassword extends PureComponent {
 
   render() {
     const { onCreateNewAccount, onCreateNewAccountFromSeed } = this.props;
-
+    console.log('came here')
     return (
       <div className="first-time-flow__wrapper">
         <MetaFoxLogo />

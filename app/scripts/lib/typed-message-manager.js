@@ -125,7 +125,7 @@ export default class TypedMessageManager extends EventEmitter {
     }
     this.validateParams(msgParams);
 
-    log.debug(
+    console.log(
       `TypedMessageManager addUnapprovedMessage: ${JSON.stringify(msgParams)}`,
     );
 

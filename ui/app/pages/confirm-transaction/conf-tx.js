@@ -257,7 +257,7 @@ class ConfirmTxScreen extends Component {
       type,
       msgParams: { version },
     } = txData;
-    log.debug('msgParams detected, rendering pending msg');
+    console.log('msgParams detected, rendering pending msg');
 
     if (!msgParams) {
       return <Loading />;

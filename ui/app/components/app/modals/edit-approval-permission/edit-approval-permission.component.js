@@ -185,7 +185,7 @@ export default class EditApprovalPermission extends PureComponent {
     try {
       customSpendLimitNumber = new BigNumber(customSpendLimit);
     } catch (error) {
-      log.debug(`Error converting '${customSpendLimit}' to BigNumber:`, error);
+      console.log(`Error converting '${customSpendLimit}' to BigNumber:`, error);
       return t('spendLimitInvalid');
     }
 

@@ -5,7 +5,7 @@ const mapStateToProps = (state) => {
   const {
     metamask: { isUnlocked, completedOnboarding },
   } = state;
-
+  console.log({ state });
   return {
     isUnlocked,
     completedOnboarding,

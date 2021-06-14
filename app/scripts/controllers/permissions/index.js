@@ -230,7 +230,7 @@ export class PermissionsController {
     const { id } = approved.metadata;
 
     if (!this.approvals.has({ id })) {
-      log.debug(`Permissions request with id '${id}' not found.`);
+      console.log(`Permissions request with id '${id}' not found.`);
       return;
     }
 
@@ -272,7 +272,7 @@ export class PermissionsController {
    */
   async rejectPermissionsRequest(id) {
     if (!this.approvals.has({ id })) {
-      log.debug(`Permissions request with id '${id}' not found.`);
+      console.log(`Permissions request with id '${id}' not found.`);
       return;
     }
 

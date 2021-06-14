@@ -49,8 +49,10 @@ export default class ExtensionStore {
    */
   _get() {
     const { local } = extension.storage;
+    console.log('getting data');
     return new Promise((resolve, reject) => {
       local.get(null, (/** @type {any} */ result) => {
+        console.log({result});
         const err = checkForError();
         if (err) {
           reject(err);
@@ -68,6 +70,8 @@ export default class ExtensionStore {
    * @private
    */
   _set(obj) {
+    console.log('setting data');
+    console.log({obj});
     const { local } = extension.storage;
     return new Promise((resolve, reject) => {
       local.set(obj, () => {

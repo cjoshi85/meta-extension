@@ -16,6 +16,7 @@ class SelectedAccount extends Component {
 
   static propTypes = {
     selectedIdentity: PropTypes.object.isRequired,
+    selectedAccount: PropTypes.object.isRequired,
   };
 
   componentDidMount() {
@@ -31,9 +32,9 @@ class SelectedAccount extends Component {
 
   render() {
     const { t } = this.context;
-    const { selectedIdentity } = this.props;
-    const checksummedAddress = checksumAddress(selectedIdentity.address);
-    console.log({selectedIdentity});
+    const { selectedIdentity, selectedAccount } = this.props;
+    const checksummedAddress = checksumAddress(selectedAccount.address);
+    console.log({selectedAccount});
     return (
       <div className="selected-account">
         <Tooltip
@@ -55,7 +56,7 @@ class SelectedAccount extends Component {
             }}
           >
             <div className="selected-account__name">
-              {selectedIdentity.name}
+              {selectedAccount.wallet_name}
             </div>
             <div className="selected-account__address">
               {shortenAddress(checksummedAddress)}

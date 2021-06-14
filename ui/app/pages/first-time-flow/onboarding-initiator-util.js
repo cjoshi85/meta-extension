@@ -13,7 +13,7 @@ const returnToOnboardingInitiatorTab = async (onboardingInitiator) => {
         } else {
           // silence console message about unchecked error
           if (extension.runtime.lastError) {
-            log.debug(extension.runtime.lastError);
+            console.log(extension.runtime.lastError);
           }
           resolve();
         }
@@ -41,7 +41,7 @@ export const returnToOnboardingInitiator = async (onboardingInitiator) => {
       } else {
         // silence console message about unchecked error
         if (extension.runtime.lastError) {
-          log.debug(extension.runtime.lastError);
+          console.log(extension.runtime.lastError);
         }
         resolve();
       }

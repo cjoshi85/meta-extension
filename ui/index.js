@@ -26,6 +26,7 @@ import {
   getUnconnectedAccountAlertShown,
 } from './app/ducks/metamask/metamask';
 import { LOCAL_STORAGE_KEYS } from './app/helpers/constants/common';
+import { constructWalletObjects } from './app/helpers/utils/util';
 
 log.setLevel(global.METAMASK_DEBUG ? 'debug' : 'warn');
 
@@ -66,21 +67,20 @@ async function startApp(metamaskState, backgroundConnection, opts) {
     await switchDirection('rtl');
   }
   // yez extension changes
-  // const walletsObj = localStorage.getItem(LOCAL_STORAGE_KEYS.erc20Wallets);
-  // const wallets = walletsObj ? JSON.parse(walletsObj) : [];
-  // metamaskState.wallets = wallets;
-  // metamaskState.isUnlocked = true;
-  // metamaskState.selectedAddress = wallets ? wallets[0].address : '';
-
+  const walletsObj = localStorage.getItem(LOCAL_STORAGE_KEYS.erc20Wallets);
+  const wallets = walletsObj ? JSON.parse(walletsObj) : [];
+  metamaskState.wallets = wallets;
+  metamaskState.isUnlocked = wallets && wallets.length ? true : false;
+  metamaskState.selectedAddress = wallets && wallets.length ? wallets[0].address : '';
+  metamaskState.identities = constructWalletObjects(wallets);
+  metamaskState.accounts = constructWalletObjects(wallets);
+  metamaskState.walletAccounts = constructWalletObjects(wallets);
   const draftInitialState = {
     activeTab: opts.activeTab,
-
     // metamaskState represents the cross-tab state
     metamask: metamaskState,
-
     // appState represents the current tab's popup state
     appState: {},
-
     localeMessages: {
       current: currentLocaleMessages,
       en: enLocaleMessages,
@@ -115,7 +115,7 @@ async function startApp(metamaskState, backgroundConnection, opts) {
   }
   console.log({ draftInitialState });
   const store = configureStore(draftInitialState);
-
+  console.log({metamask: draftInitialState});
   // if unconfirmed txs, start on txConf page
   const unapprovedTxsAll = txHelper(
     metamaskState.unapprovedTxs,

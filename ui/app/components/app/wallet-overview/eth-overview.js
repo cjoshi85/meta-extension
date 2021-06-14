@@ -27,7 +27,7 @@ import {
   getCurrentKeyring,
   getSwapsDefaultToken,
   getIsSwapsChain,
-  getNativeCurrencyImage,
+  getNativeCurrencyImage, getSelectedYezAccount,
 } from '../../../selectors/selectors';
 import SwapIcon from '../../ui/icon/swap-icon.component';
 import BuyIcon from '../../ui/icon/overview-buy-icon.component';
@@ -54,11 +54,11 @@ const EthOverview = ({ className }) => {
     },
   });
   const history = useHistory();
-  const keyring = useSelector(getCurrentKeyring);
-  const usingHardwareWallet = keyring.type.search('Hardware') !== -1;
+  // const keyring = useSelector(getCurrentKeyring);
+  // const usingHardwareWallet = keyring.type.search('Hardware') !== -1;
   const balanceIsCached = useSelector(isBalanceCached);
   const showFiat = useSelector(getShouldShowFiat);
-  const selectedAccount = useSelector(getSelectedAccount);
+  const selectedAccount = useSelector(getSelectedYezAccount);
   const { balance } = selectedAccount;
   const isMainnetChain = useSelector(getIsMainnet);
   const isTestnetChain = useSelector(getIsTestnet);
@@ -134,32 +134,32 @@ const EthOverview = ({ className }) => {
               history.push(SEND_ROUTE);
             }}
           />
-          <IconButton
-            className="eth-overview__button"
-            disabled={!isSwapsChain}
-            Icon={SwapIcon}
-            onClick={() => {
-              if (isSwapsChain) {
-                enteredSwapsEvent();
-                dispatch(setSwapsFromToken(defaultSwapsToken));
-                if (usingHardwareWallet) {
-                  global.platform.openExtensionInBrowser(BUILD_QUOTE_ROUTE);
-                } else {
-                  history.push(BUILD_QUOTE_ROUTE);
-                }
-              }
-            }}
-            label={t('swap')}
-            tooltipRender={(contents) => (
-              <Tooltip
-                title={t('onlyAvailableOnMainnet')}
-                position="bottom"
-                disabled={isSwapsChain}
-              >
-                {contents}
-              </Tooltip>
-            )}
-          />
+          {/*<IconButton*/}
+          {/*  className="eth-overview__button"*/}
+          {/*  disabled={!isSwapsChain}*/}
+          {/*  Icon={SwapIcon}*/}
+          {/*  onClick={() => {*/}
+          {/*    if (isSwapsChain) {*/}
+          {/*      enteredSwapsEvent();*/}
+          {/*      dispatch(setSwapsFromToken(defaultSwapsToken));*/}
+          {/*      if (usingHardwareWallet) {*/}
+          {/*        global.platform.openExtensionInBrowser(BUILD_QUOTE_ROUTE);*/}
+          {/*      } else {*/}
+          {/*        history.push(BUILD_QUOTE_ROUTE);*/}
+          {/*      }*/}
+          {/*    }*/}
+          {/*  }}*/}
+          {/*  label={t('swap')}*/}
+          {/*  tooltipRender={(contents) => (*/}
+          {/*    <Tooltip*/}
+          {/*      title={t('onlyAvailableOnMainnet')}*/}
+          {/*      position="bottom"*/}
+          {/*      disabled={isSwapsChain}*/}
+          {/*    >*/}
+          {/*      {contents}*/}
+          {/*    </Tooltip>*/}
+          {/*  )}*/}
+          {/*/>*/}
         </>
       }
       className={className}

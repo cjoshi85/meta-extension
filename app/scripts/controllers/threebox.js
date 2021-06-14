@@ -122,7 +122,7 @@ export default class ThreeBoxController {
   _waitForOnSyncDone() {
     return new Promise((resolve) => {
       this.box.onSyncDone(() => {
-        log.debug('3Box box sync done');
+        console.log('3Box box sync done');
         return resolve();
       });
     });
@@ -174,7 +174,7 @@ export default class ThreeBoxController {
             clearTimeout(syncTimeout);
             this.store.updateState(stateUpdate);
 
-            log.debug('3Box space sync done');
+            console.log('3Box space sync done');
           },
         });
       } catch (e) {

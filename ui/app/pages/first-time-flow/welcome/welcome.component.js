@@ -36,8 +36,8 @@ export default class Welcome extends PureComponent {
   }
 
   handleContinue = () => {
-    // this.props.history.push(LOGIN_ACTION_ROUTE);
-    this.props.history.push(INITIALIZE_SELECT_ACTION_ROUTE);
+    this.props.history.push(LOGIN_ACTION_ROUTE);
+    //this.props.history.push(INITIALIZE_SELECT_ACTION_ROUTE);
   };
 
   render() {

@@ -134,6 +134,13 @@ export function getSelectedAddress(state) {
   return state.metamask.selectedAddress;
 }
 
+export function getAllYezAccounts(state) {
+  return state.metamask.wallets;
+}
+
+export function getSelectedYezAccount(state) {
+  return state.metamask.wallets.find(item => item.address === state.metamask.selectedAddress)
+}
 export function getSelectedIdentity(state) {
   const selectedAddress = getSelectedAddress(state);
   const { identities } = state.metamask;
@@ -159,7 +166,7 @@ export function getMetaMaskIdentities(state) {
 }
 
 export function getMetaMaskAccountsRaw(state) {
-  return state.metamask.accounts;
+  return state.metamask.walletAccounts;
 }
 
 export function getMetaMaskCachedBalances(state) {
@@ -197,7 +204,7 @@ export const getMetaMaskAccountsConnected = createSelector(
 
 export function isBalanceCached(state) {
   const selectedAccountBalance =
-    state.metamask.accounts[getSelectedAddress(state)].balance;
+    state.metamask.walletAccounts[getSelectedAddress(state)].balance;
   const cachedBalance = getSelectedAccountCachedBalance(state);
 
   return Boolean(!selectedAccountBalance && cachedBalance);
@@ -278,8 +285,9 @@ export function getAccountsWithLabels(state) {
 
 export function getCurrentAccountWithSendEtherInfo(state) {
   const currentAddress = getSelectedAddress(state);
-  const accounts = accountsWithSendEtherInfoSelector(state);
-  console.log({currentAddress,accounts});
+  //const accounts = accountsWithSendEtherInfoSelector(state);
+  const accounts = getAllYezAccounts(state);
+  console.log({ currentAddress, accounts, state });
   return getAccountByAddress(accounts, currentAddress);
 }
 

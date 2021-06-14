@@ -1,6 +1,7 @@
 import * as actionConstants from '../../store/actionConstants';
 import { ALERT_TYPES } from '../../../../shared/constants/alerts';
 import { NETWORK_TYPE_RPC } from '../../../../shared/constants/network';
+import { constructWalletObjects } from '../../helpers/utils/util';
 
 export default function reduceMetamask(state = {}, action) {
   const metamaskState = {
@@ -369,7 +370,9 @@ export default function reduceMetamask(state = {}, action) {
     case actionConstants.SET_WALLETS: {
       return {
         ...metamaskState,
+        accounts: action.wallets,
         wallets: action.wallets,
+        walletAccounts : constructWalletObjects(action.wallets),
         isUnlocked: true,
       };
     }

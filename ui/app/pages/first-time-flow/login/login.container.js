@@ -6,6 +6,7 @@ import { getFirstTimeFlowTypeRoute } from '../../../selectors';
 import LoginComponent from './login.component';
 
 const mapStateToProps = (state) => {
+  console.log({state});
   return {
     nextRoute: getFirstTimeFlowTypeRoute(state),
   };

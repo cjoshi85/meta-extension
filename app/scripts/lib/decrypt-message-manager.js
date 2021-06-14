@@ -129,7 +129,7 @@ export default class DecryptMessageManager extends EventEmitter {
    *
    */
   addUnapprovedMessage(msgParams, req) {
-    log.debug(
+    console.log(
       `DecryptMessageManager addUnapprovedMessage: ${JSON.stringify(
         msgParams,
       )}`,
@@ -342,7 +342,7 @@ export default class DecryptMessageManager extends EventEmitter {
         return addHexPrefix(stripped);
       }
     } catch (e) {
-      log.debug(`Message was not hex encoded, interpreting as utf8.`);
+      console.log(`Message was not hex encoded, interpreting as utf8.`);
     }
 
     return bufferToHex(Buffer.from(data, 'utf8'));
